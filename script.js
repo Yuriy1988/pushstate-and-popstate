@@ -1,4 +1,4 @@
-let boxes = Array.from(document.getElementsByClassName('box'));
+const boxes = [...document.getElementsByClassName('box')];
 
 function selectBox (id) {
     boxes.forEach(b => {
@@ -7,15 +7,17 @@ function selectBox (id) {
 }
 
 boxes.forEach(b => {
-    let id = b.id;
-    b.addEventListener('click', e => {
-        history.pushState({id}, `Selected: ${id}`, `./selected=${id}`)
+    const id = b.id;
+
+    b.addEventListener('click', () => {
+        history.pushState({id}, '', `./selected=${id}`);
         selectBox(id);
     });
 });
 
 window.addEventListener('popstate', e => {
-    selectBox(e.state.id);
+    if (e.state) {
+        selectBox(e.state.id);
+    }
 });
 
-history.replaceState({id: null}, 'Default state', './');
